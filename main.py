@@ -1,7 +1,11 @@
-import numpy as np
-import pandas as pd
-import geopandas as gpd
-from shapely.geometry import Point, LineString
+import logging
+
+from load_datasets import process_transmission_data
+
+logging.basicConfig(level=logging.INFO)
 
 if __name__ == "__main__":
-    print("HI")
+    # load the transmission line data
+    translines_shp = process_transmission_data(["MI", "ME", "FL", "UT", "AZ"])
+
+    print(translines_shp.sample(10))
