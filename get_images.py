@@ -57,7 +57,15 @@ def download_image(
         filename, destination_folder,
         index,
         dist=2000,
-        bands=["B8"]):
+        bands=["B8"],
+        force=False):
+
+    destination_path = os.path.join(destination_folder, f"{filename}.tif")
+
+    if not force:
+        if os.path.isfile(destination_path):
+            logger.info(f"file {destination_path} already exists, skipping")
+            return
 
     logger.info(f"downloading image {index}...")
 
@@ -70,7 +78,7 @@ def download_image(
         # copy the file to the destination folder
         shutil.copy(
             os.path.join(filename, "download.B8.tif"),
-            os.path.join(destination_folder, f"{filename}.tif"))
+            destination_path)
         # delete the zip and folder that were created
         os.remove(f"{filename}.zip")
         shutil.rmtree(filename)
